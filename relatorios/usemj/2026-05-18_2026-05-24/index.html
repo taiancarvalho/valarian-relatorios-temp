@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USE MJ · Relatório · 2026-05-18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ── reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cv: #0c0b09; --sf: #1c1a17; --am: #d4803a; --am2: #f0a050;
+  --t1: #f0ece4; --t2: #8a8278; --t3: #5a5650;
+  --red: #e05050; --grn: #50c87a; --blu: #5090e0; --yel: #d4a030;
+  --radius: 10px;
+  --sidebar-w: 228px;
+  --transition: 200ms cubic-bezier(.4,0,.2,1);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background: var(--cv);
+  color: var(--t1);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+.icon { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+
+/* ── layout ── */
+.layout { display: flex; min-height: 100vh; }
+
+/* ════════════════════════════════
+   SIDEBAR
+════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--cv);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 1px solid rgba(240,236,228,0.07);
+  z-index: 100;
+  scrollbar-width: thin;
+  scrollbar-color: #5a5650 transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #5a5650; border-radius: 4px; }
+
+.sidebar-logo {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid rgba(240,236,228,0.07);
+}
+.logo-wordmark { opacity: 0.9; }
+.logo-tagline { font-size: 0.58rem; text-transform: uppercase; letter-spacing: .13em; color: var(--t3); margin-top: 7px; }
+
+.client-info {
+  padding: 12px 20px 14px;
+  border-bottom: 1px solid rgba(240,236,228,0.07);
+}
+.client-info-name { font-size: 0.9rem; font-weight: 700; color: var(--t1); }
+.client-info-period { font-size: 0.68rem; color: var(--t2); margin-top: 2px; }
+
+nav { flex: 1; padding: 10px 0; }
+.nav-section {
+  padding: 12px 18px 4px;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--t3);
+  font-weight: 600;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  margin: 1px 10px;
+  font-size: 0.8rem;
+  color: var(--t2);
+  cursor: pointer;
+  border-radius: 9999px;
+  transition: color var(--transition), background var(--transition);
+  position: relative;
+  justify-content: space-between;
+}
+.nav-item-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.nav-item .nav-icon { color: var(--t3); transition: color var(--transition); flex-shrink: 0; }
+.nav-item:hover { color: var(--t1); background: rgba(240,236,228,0.04); }
+.nav-item:hover .nav-icon { color: var(--t2); }
+.nav-item.active { color: var(--t1); background: rgba(212,128,58,0.08); font-weight: 600; }
+.nav-item.active .nav-icon { color: var(--am); }
+.nav-item.active::after {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: var(--am);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.sidebar-footer {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(240,236,228,0.07);
+  font-size: 0.62rem;
+  color: var(--t3);
+  line-height: 1.7;
+}
+
+/* ════════════════════════════════
+   MAIN
+════════════════════════════════ */
+.main { flex: 1; min-width: 0; }
+.section {
+  padding: 40px 44px;
+  border-bottom: 1px solid rgba(240,236,228,0.07);
+  max-width: 1000px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--am);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(240,236,228,0.07);
+  font-weight: 700;
+}
+.section-title .icon { color: var(--am); opacity: .8; }
+.subsection-title {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--t2);
+  margin: 18px 0 8px;
+  font-weight: 600;
+}
+
+/* ── cover hero ── */
+.cover-hero {
+  padding: 56px 44px 44px;
+  border-bottom: 1px solid rgba(240,236,228,0.07);
+  max-width: 1000px;
+  background: #0c0b09;
+  position: relative;
+  overflow: hidden;
+}
+/* Grain texture */
+.cover-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Amber atmospheric glow */
+.cover-hero::after {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 500px; height: 380px;
+  background: radial-gradient(ellipse at 70% 30%, rgba(212,128,58,0.08) 0%, transparent 62%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+.cover-hero > * { position: relative; z-index: 1; }
+.cover-meta {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--t3);
+  margin-bottom: 12px;
+}
+.cover-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  color: var(--t1);
+  line-height: 1.0;
+  margin-bottom: 6px;
+  letter-spacing: -.03em;
+}
+.cover-period { font-size: 0.95rem; color: var(--t2); margin-bottom: 24px; }
+.cover-divider {
+  width: 44px; height: 3px;
+  background: var(--am);
+  border-radius: 2px;
+  margin-bottom: 28px;
+}
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #d4803a18;
+  color: #d4803a;
+  border: 1px solid #d4803a40;
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.cover-kpis { display: flex; gap: 36px; flex-wrap: wrap; margin-bottom: 28px; }
+.cover-kpi { display: flex; flex-direction: column; gap: 4px; }
+.cover-kpi-val {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--am);
+  line-height: 1;
+}
+.cover-kpi-lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: .07em; color: var(--t3); }
+.exec-summary { font-size: 0.84rem; color: var(--t2); max-width: 600px; line-height: 1.75; }
+
+/* ── KPI grid ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 10px; margin-bottom: 8px; }
+.kpi-card {
+  background: var(--sf);
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(240,236,228,0.07);
+  border-top: 2px solid var(--am);
+  transition: transform .15s cubic-bezier(.33,1,.68,1), box-shadow .15s cubic-bezier(.33,1,.68,1), border-color .15s;
+  cursor: default;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 2px 8px rgba(212,128,58,0.08);
+  border-color: rgba(212,128,58,0.2);
+}
+.kpi-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: .07em; color: var(--t2); margin-bottom: 6px; }
+.kpi-value { font-size: 1.45rem; font-weight: 700; color: var(--t1); line-height: 1.2; }
+.kpi-prev  { font-size: 0.68rem; color: var(--t3); margin-top: 4px; }
+
+/* ── delta ── */
+.delta { font-size: 0.74rem; font-weight: 500; margin-left: 5px; }
+.up  { color: var(--grn); }
+.dn  { color: var(--red); }
+.neu { color: var(--t3); }
+
+/* ── objective cards ── */
+.obj-card {
+  background: var(--sf);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(240,236,228,0.07);
+  border-top: 2px solid var(--am);
+  transition: transform .15s cubic-bezier(.33,1,.68,1), box-shadow .15s, border-color .15s;
+}
+.obj-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  border-color: rgba(212,128,58,0.2);
+}
+.obj-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: .08em; color: var(--t2); margin-bottom: 12px; font-weight: 600; }
+.obj-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.obj-m-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: .05em; color: var(--t3); margin-bottom: 4px; }
+.obj-m-value { font-size: 1.55rem; font-weight: 700; color: var(--t1); line-height: 1.15; }
+.obj-m-prev  { font-size: 0.68rem; color: var(--t2); margin-top: 3px; }
+
+/* ── charts ── */
+.chart-box {
+  background: var(--sf);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(240,236,228,0.07);
+  transition: box-shadow .15s cubic-bezier(.33,1,.68,1), border-color .15s;
+}
+.chart-box:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.4); border-color: rgba(240,236,228,0.12); }
+.chart-box-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: .09em; color: var(--t2); margin-bottom: 14px; font-weight: 600; }
+.chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── tables ── */
+.tbl-wrap { overflow-x: auto; border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 480px; }
+th {
+  text-align: left;
+  color: var(--t3);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(240,236,228,0.07);
+  font-weight: 700;
+  white-space: nowrap;
+}
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(240,236,228,0.04);
+  vertical-align: middle;
+  transition: background var(--transition);
+}
+tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: rgba(240,236,228,0.03); }
+.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--t2); }
+.camp-name { font-weight: 600; color: var(--t1); font-size: 0.82rem; }
+.meta-label { font-size: 0.62rem; color: var(--t3); }
+.badges { display: flex; gap: 4px; margin-top: 3px; flex-wrap: wrap; }
+.ad-row { display: flex; align-items: center; gap: 10px; }
+.ad-icon { font-size: 1.4rem; flex-shrink: 0; }
+.ad-link {
+  color: var(--t1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color var(--transition);
+}
+.ad-link:hover { color: var(--am); }
+.ad-ext-icon {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--transition), transform var(--transition);
+  display: inline-flex;
+  align-items: center;
+  color: var(--am);
+}
+.ad-link:hover .ad-ext-icon {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── badges ── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.badge-green  { background: #50c87a1e; color: #50c87a; }
+.badge-grey   { background: #5a565033; color: #8a8278; }
+.badge-accent { background: #d4803a22; color: #d4803a; }
+.badge-win    { background: #50c87a1e; color: #50c87a; }
+.badge-alert  { background: #e0505022; color: #e05050; }
+
+/* ── funnel ── */
+.funnel { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; }
+.fn-step {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 6px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+.fn-step:hover { transform: translateX(6px); opacity: .9; }
+.fn-label { font-size: 0.72rem; color: var(--t2); }
+.fn-value { font-size: 1.1rem; font-weight: 700; }
+.fn-pct   { font-size: 0.65rem; color: var(--t3); margin-left: 8px; }
+
+/* ── strategic comment ── */
+.cmt {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #d4a03012;
+  border-left: 3px solid #d4a030;
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--t2);
+}
+.cmt-icon { flex-shrink: 0; font-style: normal; }
+
+/* ── diagnosis ── */
+.dp, .da, .da-crit, .dh {
+  display: flex;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  align-items: flex-start;
+  line-height: 1.5;
+  transition: transform var(--transition);
+}
+.dp:hover, .da:hover, .da-crit:hover, .dh:hover { transform: translateX(3px); }
+.diag-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+.dp      { background: #50c87a12; border-left: 3px solid #50c87a; }
+.da      { background: #d4a03014; border-left: 3px solid #d4a030; }
+.da-crit { background: #e050501e; border-left: 3px solid #e05050; font-weight: 600; }
+.dh      { background: #5090e012; border-left: 3px solid #5090e0; }
+
+/* ── next steps ── */
+.ns-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 11px 14px;
+  background: var(--sf);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.ns-row:hover { transform: translateX(4px); box-shadow: 0 4px 16px #0c0b09cc; }
+.ns-num {
+  background: var(--am);
+  color: var(--cv);
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── whatsapp ── */
+.wa-box {
+  background: var(--sf);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  position: relative;
+}
+.wa-msg {
+  font-size: 0.85rem;
+  color: var(--t2);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--am);
+  color: var(--cv);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: opacity var(--transition), transform var(--transition);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.copy-btn:hover { opacity: .88; transform: translateY(-1px); }
+.copy-btn:active { transform: translateY(0); }
+.copy-btn.copied { background: #50c87a; }
+.copy-btn .icon { transition: transform .3s; }
+.copy-btn.copied .icon { transform: scale(1.2); }
+
+/* ════════════════════════════════
+   ANIMATIONS
+════════════════════════════════ */
+/* Reveal on scroll — Valarian motion: slide-up 0.4s ease-out-expo */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .4s cubic-bezier(.33,1,.68,1),
+              transform .4s cubic-bezier(.33,1,.68,1);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* Stagger — 60ms per child */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .4s cubic-bezier(.33,1,.68,1),
+              transform .4s cubic-bezier(.33,1,.68,1);
+}
+.stagger.visible > * { opacity: 1; transform: none; }
+.stagger.visible > *:nth-child(1) { transition-delay: .06s; }
+.stagger.visible > *:nth-child(2) { transition-delay: .12s; }
+.stagger.visible > *:nth-child(3) { transition-delay: .18s; }
+.stagger.visible > *:nth-child(4) { transition-delay: .24s; }
+.stagger.visible > *:nth-child(5) { transition-delay: .30s; }
+.stagger.visible > *:nth-child(6) { transition-delay: .36s; }
+
+/* Cover hero entrance */
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+.cover-hero { animation: heroIn .5s cubic-bezier(.33,1,.68,1) both; }
+
+/* Shimmer on cover KPI values */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.cover-kpi-val {
+  background: linear-gradient(90deg, #d4803a 20%, #f0a050 50%, #d4803a 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3.5s linear infinite;
+  animation-delay: 1s;
+}
+
+/* ════════════════════════════════
+   MOBILE BOTTOM NAV
+════════════════════════════════ */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #1c1a17f0;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(240,236,228,0.07);
+  z-index: 200;
+  padding: 6px 0 env(safe-area-inset-bottom);
+}
+.mobile-nav-inner {
+  display: flex;
+  justify-content: space-around;
+}
+.mobile-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 12px;
+  font-size: 0.6rem;
+  color: var(--t3);
+  cursor: pointer;
+  transition: color var(--transition);
+  border: none;
+  background: none;
+  text-align: center;
+  letter-spacing: .03em;
+  min-width: 52px;
+}
+.mobile-tab .icon { transition: color var(--transition), transform var(--transition); }
+.mobile-tab.active { color: var(--am); }
+.mobile-tab.active .icon { color: var(--am); transform: translateY(-1px); }
+.mobile-tab:hover { color: var(--t1); }
+
+/* ── responsive ── */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .mobile-nav { display: block; }
+  .section, .cover-hero { padding: 28px 20px; }
+  .chart-grid-2 { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .obj-metrics { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cover-kpis { gap: 20px; }
+  .cover-name { font-size: 1.8rem; }
+  .main { padding-bottom: 72px; }
+  table { font-size: 0.75rem; }
+  .camp-name { font-size: 0.78rem; }
+  th, td { padding: 7px 10px; }
+}
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .obj-metrics { grid-template-columns: 1fr; gap: 10px; }
+  .cover-kpis { flex-direction: column; gap: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ════════ SIDEBAR ════════ -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-wordmark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83.18 9.75" style="width:120px;height:auto;display:block">
+  <style>.vl { fill: #eae9e8; }</style>
+  <polygon class="vl" points="10.79 .74 6.91 9.01 4.94 9.01 1.05 .74 2.86 .74 5.93 7.62 9 .74 10.79 .74"/>
+  <path class="vl" d="M19.92,7.32h-4.33l-.74,1.69h-1.77L16.78.73h1.96l3.7,8.28h-1.78l-.74-1.69h0ZM19.45,6.22l-1.68-3.84-1.7,3.84h3.38Z"/>
+  <polygon class="vl" points="27.24 7.92 30.73 7.92 30.73 9.01 25.54 9.01 25.54 .74 27.24 .74 27.24 7.92"/>
+  <path class="vl" d="M39.87,7.32h-4.33l-.74,1.69h-1.77l3.7-8.28h1.96l3.7,8.28h-1.78l-.74-1.69h0ZM39.39,6.22l-1.68-3.84-1.7,3.84h3.38Z"/>
+  <path class="vl" d="M50.86,9.01l-2.38-3.31h-1.29v3.31h-1.7V.74h3.57c.79,0,1.47.11,2.02.33.55.22.96.52,1.23.89.27.37.41.79.41,1.25,0,.54-.2,1.03-.59,1.47-.39.44-.99.74-1.81.9l2.56,3.43h-2.02ZM47.18,4.62h1.87c.63,0,1.11-.13,1.44-.38.32-.25.48-.59.48-1.02s-.16-.76-.48-1.01c-.32-.24-.8-.36-1.44-.36h-1.87v2.77Z"/>
+  <polygon class="vl" points="58.07 .74 58.07 9.01 56.38 9.01 56.38 .74 58.07 .74"/>
+  <path class="vl" d="M68.02,7.32h-4.33l-.74,1.69h-1.77l3.7-8.28h1.96l3.7,8.28h-1.78l-.74-1.69h0ZM67.55,6.22l-1.68-3.84-1.7,3.84h3.38Z"/>
+  <polygon class="vl" points="82.14 9.01 80.44 9.01 75.34 2.84 75.34 9.01 73.64 9.01 73.64 .73 75.34 .73 80.44 6.9 80.44 .73 82.14 .73 82.14 9.01"/>
+</svg></div>
+    <div class="logo-tagline">Tráfego Pago</div>
+  </div>
+  <div class="client-info">
+    <div class="client-info-name">USE MJ<span class="new-badge">Nova conta</span></div>
+    <div class="client-info-period">2026-05-18 → 2026-05-24</div>
+  </div>
+  <nav>
+    <div class="nav-section">Visão Geral</div>
+    <a class="nav-item active" href="#cover" data-section="cover"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>Resumo</span></span></a>
+    <a class="nav-item " href="#mensagem" data-section="mensagem"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span>Mensagem</span></span></a>
+    <div class="nav-section">Performance</div>
+    <a class="nav-item " href="#performance" data-section="performance"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span>Performance</span></span></a>
+    <a class="nav-item " href="#campanhas" data-section="campanhas"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span><span>Campanhas</span></span></a>
+    <a class="nav-item " href="#conjuntos" data-section="conjuntos"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span>Conjuntos</span></span></a>
+    <a class="nav-item " href="#criativos" data-section="criativos"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span><span>Criativos</span></span></a>
+    <div class="nav-section">Estratégia</div>
+    <a class="nav-item " href="#diagnostico" data-section="diagnostico"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><span>Diagnóstico</span></span></a>
+    <a class="nav-item " href="#proximos-passos" data-section="proximos-passos"><span class="nav-item-left"><span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span><span>Próximos Passos</span></span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Gerado em<br>2026-05-26
+  </div>
+</div>
+
+<!-- ════════ MAIN ════════ -->
+<div class="main">
+
+<!-- Cover -->
+<div class="cover-hero" id="cover">
+  <div class="cover-meta">Valarian · Relatório Semanal de Tráfego Pago</div>
+  <div class="cover-name">USE MJ<span class="new-badge">Nova conta</span></div>
+  <div class="cover-period">Período: 2026-05-18 a 2026-05-24</div>
+  <div class="cover-divider"></div>
+  <div class="cover-kpis">
+    <div class="cover-kpi">
+      <div class="cover-kpi-val" data-count="133.7" data-format="brl">R$ 133,70</div>
+      <div class="cover-kpi-lbl">Investimento</div>
+    </div>
+    <div class="cover-kpi">
+      <div class="cover-kpi-val" data-count="309.0" data-format="num">309</div>
+      <div class="cover-kpi-lbl">Cliques no link</div>
+    </div>
+    <div class="cover-kpi">
+      <div class="cover-kpi-val" data-count="0.43" data-format="brl">R$ 0,43</div>
+      <div class="cover-kpi-lbl">Custo / Clique</div>
+    </div>
+  </div>
+  <div class="exec-summary">Na semana de 18 a 24 de maio, investi R$ 133.70 na conta da USE MJ e gerei 309 cliques no link, com custo médio de R$ 0.43 por clique. Também tivemos 31 visualizações de página de destino e 46 eventos de visualização de conteúdo registrados. Como não houve investimento registrado no período anterior de 11 a 17 de maio, esta leitura funciona como uma retomada/base inicial de comparação; a partir da próxima semana a evolução percentual fica mais justa. O foco agora é separar melhor o papel das campanhas: manter o tráfego para aquecer visita/perfil e melhorar a campanha de vendas para transformar interesse em ação mais profunda.</div>
+</div>
+
+<!-- Mensagem (2º item) -->
+<div class="section reveal" id="mensagem">
+  <div class="section-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Mensagem para o Cliente</div>
+  <div class="wa-box">
+    <div class="wa-msg">Oi! Segue o resumo da semana da USE MJ, de 18 a 24 de maio. No período, investimos R$ 133.70 e geramos 309 cliques no link, com custo médio de R$ 0.43 por clique. A entrega ficou com 12599 impressões, alcance de 11624 pessoas e CTR geral de 2.58%, que é um bom sinal de interesse nos criativos.<br><br>O ponto mais importante é que tivemos 31 visualizações de página de destino e 46 visualizações de conteúdo registradas. Ou seja: além do clique, parte do público avançou para conhecer melhor os produtos. Como no período anterior, de 11 a 17 de maio, não houve dados de investimento na conta, esta semana entra como nossa base inicial para comparação.<br><br>Nos criativos, os anúncios de versatilidade concentraram boa parte do volume, enquanto os criativos de vestido estampado apareceram com CTR mais alto, indicando que esse ângulo tem força para ser explorado melhor. Para a próxima semana, eu manteria o que está trazendo volume, mas testaria variações mais diretas de produto/oferta para puxar mais intenção de compra. Faz sentido priorizarmos mais peças nesse estilo de vestido estampado?</div>
+    <button class="copy-btn" id="copyBtn" onclick="copyWhatsApp(this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copiar mensagem
+    </button>
+  </div>
+</div>
+
+<!-- Performance -->
+<div class="section reveal" id="performance">
+  <div class="section-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Objetivos da Conta</div>
+  <div class="stagger">
+<div class="obj-card">
+  <div class="obj-title">Cliques no link</div>
+  <div class="obj-metrics">
+    <div class="obj-m">
+      <div class="obj-m-label">Resultados</div>
+      <div class="obj-m-value" data-count="309.0" data-format="num">309</div>
+      <div class="obj-m-prev">Ant: 0</div>
+    </div>
+    <div class="obj-m">
+      <div class="obj-m-label">Custo / Clique</div>
+      <div class="obj-m-value" data-count="0.43" data-format="brl">R$ 0,43</div>
+      <div class="obj-m-prev">Ant: —</div>
+    </div>
+  </div>
+</div>
+<div class="obj-card">
+  <div class="obj-title">Visualizações da página</div>
+  <div class="obj-metrics">
+    <div class="obj-m">
+      <div class="obj-m-label">Resultados</div>
+      <div class="obj-m-value" data-count="31.0" data-format="num">31</div>
+      <div class="obj-m-prev">Ant: 0</div>
+    </div>
+    <div class="obj-m">
+      <div class="obj-m-label">Custo / LPV</div>
+      <div class="obj-m-value" data-count="4.31" data-format="brl">R$ 4,31</div>
+      <div class="obj-m-prev">Ant: —</div>
+    </div>
+  </div>
+</div>
+<div class="obj-card">
+  <div class="obj-title">Visualizações de conteúdo</div>
+  <div class="obj-metrics">
+    <div class="obj-m">
+      <div class="obj-m-label">Resultados</div>
+      <div class="obj-m-value" data-count="46.0" data-format="num">46</div>
+      <div class="obj-m-prev">Ant: 0</div>
+    </div>
+    <div class="obj-m">
+      <div class="obj-m-label">Custo / View Content</div>
+      <div class="obj-m-value" data-count="2.91" data-format="brl">R$ 2,91</div>
+      <div class="obj-m-prev">Ant: —</div>
+    </div>
+  </div>
+</div></div>
+
+  <div class="section-title" style="margin-top:28px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> Métricas de Entrega</div>
+  <div class="kpi-grid stagger">
+    <div class="kpi-card"><div class="kpi-label">Investimento</div><div class="kpi-value" data-count="133.7" data-format="brl">R$ 133,70</div></div>
+    <div class="kpi-card"><div class="kpi-label">Impressões</div><div class="kpi-value" data-count="12599.0" data-format="num">12.599</div></div>
+    <div class="kpi-card"><div class="kpi-label">Alcance</div><div class="kpi-value" data-count="11624.0" data-format="num">11.624</div></div>
+    <div class="kpi-card"><div class="kpi-label">CTR Geral</div><div class="kpi-value" data-count="2.58" data-format="pct">2,6%</div></div>
+    <div class="kpi-card"><div class="kpi-label">CPM</div><div class="kpi-value" data-count="10.61" data-format="brl">R$ 10,61</div></div>
+    <div class="kpi-card"><div class="kpi-label">CPC Médio</div><div class="kpi-value" data-count="0.41" data-format="brl">R$ 0,41</div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:28px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg> Evolução Diária</div>
+  <div class="chart-box">
+    <div class="chart-box-label">Investimento Diário (R$)</div>
+    <canvas id="chartSpend"></canvas>
+  </div>
+  <div class="chart-grid-2">
+    <div class="chart-box">
+      <div class="chart-box-label">CTR Diário (%)</div>
+      <canvas id="chartCtr"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="chart-box-label">Resultados Diários</div>
+      <canvas id="chartRes"></canvas>
+    </div>
+  </div>
+  <div class="cmt"><span class="cmt-icon">💡</span><span>A leitura diária serve principalmente para identificar consistência de entrega. Como esta foi uma semana-base, o mais importante é manter a próxima semana comparável.</span></div>
+</div>
+
+<!-- Campanhas -->
+<div class="section reveal" id="campanhas">
+  <div class="section-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Campanhas</div>
+  <div class="chart-box">
+    <div class="chart-box-label">Gasto por Campanha — Atual vs Anterior</div>
+    <canvas id="chartCamps"></canvas>
+  </div>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Campanha</th><th class="num">Gasto</th><th class="num">Resultados</th><th class="num">Custo/Res</th></tr></thead>
+      <tbody><tr>
+  <td><div class="camp-name">TRAFEGO | VISITAS IG | M | 25-45 - gerar s…</div>
+      <div class="badges"><span class="badge badge-green">Ativo</span><span class="badge badge-accent">LINK_CLICKS</span></div></td>
+  <td class="num">R$ 87,60</td>
+  <td class="num">281</td>
+  <td class="num">R$ 0,31</td>
+</tr><tr>
+  <td><div class="camp-name">VENDAS | M | 25-45 - aumentar vendas</div>
+      <div class="badges"><span class="badge badge-green">Ativo</span><span class="badge badge-accent">OUTCOME_SALES</span></div></td>
+  <td class="num">R$ 46,10</td>
+  <td class="num">28</td>
+  <td class="num">R$ 1,65</td>
+</tr></tbody>
+    </table>
+  </div>
+  <div class="cmt"><span class="cmt-icon">💡</span><span>A campanha de visitas entregou volume; a campanha de vendas teve CTR mais forte, mesmo com menos verba. Vale equilibrar o orçamento com cuidado.</span></div>
+</div>
+
+<!-- Conjuntos -->
+<div class="section reveal" id="conjuntos">
+  <div class="section-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Conjuntos de Anúncio</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Conjunto</th><th class="num">Gasto</th><th class="num">Resultados</th><th class="num">Custo/Res</th></tr></thead>
+      <tbody><tr>
+  <td class="camp-name">VISITA IG | M | 25-45 | 40KM</td>
+  <td class="num">R$ 87,60</td>
+  <td class="num">281</td>
+  <td class="num">R$ 0,31</td>
+</tr><tr>
+  <td class="camp-name">VISITA IG | M | 25-45 | 40KM</td>
+  <td class="num">R$ 46,10</td>
+  <td class="num">28</td>
+  <td class="num">R$ 1,65</td>
+</tr></tbody>
+    </table>
+  </div>
+  <div class="section-title" style="margin-top:24px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> Funil de Conversão</div>
+  <div class="funnel"><div class="fn-step" style="width:100%;border-left:3px solid #d4803a;background:#d4803a18"><span class="fn-label">Impressões</span><div><span class="fn-value" style="color:#d4803a">12.599</span></div></div><div class="fn-step" style="width:79%;border-left:3px solid #f0a050;background:#f0a05018"><span class="fn-label">Alcance</span><div><span class="fn-value" style="color:#f0a050">11.624</span></div></div><div class="fn-step" style="width:59%;border-left:3px solid #d4a030;background:#d4a03018"><span class="fn-label">Cliques</span><div><span class="fn-value" style="color:#d4a030">325</span><span class="fn-pct">CTR 2,6%</span></div></div><div class="fn-step" style="width:38%;border-left:3px solid #5a5650;background:#5a565018"><span class="fn-label">Cliques no link</span><div><span class="fn-value" style="color:#5a5650">309</span></div></div></div>
+</div>
+
+<!-- Criativos -->
+<div class="section reveal" id="criativos">
+  <div class="section-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg> Performance por Anúncio</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Anúncio</th><th class="num">Gasto</th><th class="num">Resultados</th><th class="num">CPR</th><th class="num">CTR</th></tr></thead>
+      <tbody><tr>
+  <td>
+    <div class="ad-row">
+      <span class="ad-icon">🖼</span>
+      <div><div class="camp-name">ad - versatilidade</div>
+           <div class="badges"><span class="badge badge-win">✦ Destaque</span></div></div>
+    </div>
+  </td>
+  <td class="num">R$ 45,27</td>
+  <td class="num">199<br><span class="meta-label">Cliques no link</span></td>
+  <td class="num">R$ 0,23</td>
+  <td class="num">2,3%</td>
+</tr><tr>
+  <td>
+    <div class="ad-row">
+      <span class="ad-icon">🖼</span>
+      <div><div class="camp-name">ad - vestido estampado</div>
+           <div class="badges"><span class="badge badge-grey">Ativo</span></div></div>
+    </div>
+  </td>
+  <td class="num">R$ 40,11</td>
+  <td class="num">22<br><span class="meta-label">Cliques no link</span></td>
+  <td class="num">R$ 1,82</td>
+  <td class="num">4,6%</td>
+</tr><tr>
+  <td>
+    <div class="ad-row">
+      <span class="ad-icon">🖼</span>
+      <div><div class="camp-name">ad - vestido estampado</div>
+           <div class="badges"><span class="badge badge-grey">Ativo</span></div></div>
+    </div>
+  </td>
+  <td class="num">R$ 28,05</td>
+  <td class="num">46<br><span class="meta-label">Cliques no link</span></td>
+  <td class="num">R$ 0,61</td>
+  <td class="num">4,4%</td>
+</tr><tr>
+  <td>
+    <div class="ad-row">
+      <span class="ad-icon">🖼</span>
+      <div><div class="camp-name">ad - ecommerce no ar</div>
+           <div class="badges"><span class="badge badge-grey">Ativo</span></div></div>
+    </div>
+  </td>
+  <td class="num">R$ 10,53</td>
+  <td class="num">30<br><span class="meta-label">Cliques no link</span></td>
+  <td class="num">R$ 0,35</td>
+  <td class="num">1,7%</td>
+</tr><tr>
+  <td>
+    <div class="ad-row">
+      <span class="ad-icon">🖼</span>
+      <div><div class="camp-name">ad - versatilidade</div>
+           <div class="badges"><span class="badge badge-grey">Ativo</span></div></div>
+    </div>
+  </td>
+  <td class="num">R$ 5,92</td>
+  <td class="num">6<br><span class="meta-label">Cliques no link</span></td>
+  <td class="num">R$ 0,99</td>
+  <td class="num">2,8%</td>
+</tr><tr>
+  <td>
+    <div class="ad-row">
+      <span class="ad-icon">🖼</span>
+      <div><div class="camp-name">ad - cores sofisticadas</div>
+           <div class="badges"><span class="badge badge-grey">Ativo</span></div></div>
+    </div>
+  </td>
+  <td class="num">R$ 3,75</td>
+  <td class="num">6<br><span class="meta-label">Cliques no link</span></td>
+  <td class="num">R$ 0,62</td>
+  <td class="num">5,5%</td>
+</tr><tr>
+  <td>
+    <div class="ad-row">
+      <span class="ad-icon">🖼</span>
+      <div><div class="camp-name">ad - site no ar</div>
+           <div class="badges"><span class="badge badge-alert">0 resultados</span></div></div>
+    </div>
+  </td>
+  <td class="num">R$ 0,07</td>
+  <td class="num">0<br><span class="meta-label">Cliques no link</span></td>
+  <td class="num">—</td>
+  <td class="num">—</td>
+</tr></tbody>
+    </table>
+  </div>
+  <div class="cmt"><span class="cmt-icon">💡</span><span>Os criativos de versatilidade geraram volume, mas os de vestido estampado merecem novas variações por sinal de interesse mais concentrado.</span></div>
+</div>
+
+<!-- Diagnóstico -->
+<div class="section reveal" id="diagnostico">
+  <div class="section-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Diagnóstico da Semana</div>
+  <div class="cmt"><span class="cmt-icon">💡</span><span>A conta está em fase de construção de base: bom custo de clique e interesse inicial, mas ainda precisa transformar tráfego em sinais comerciais mais fortes.</span></div>
+  <div class="subsection-title">Destaques</div><div class="dp"><span class="diag-icon">✅</span><span>CTR geral de 2.58% com CPC médio de R$ 0.41, indicando boa capacidade de gerar interesse com baixo custo.</span></div><div class="dp"><span class="diag-icon">✅</span><span>A campanha de vendas concentrou menos verba, mas entregou CTR maior, sinal de criativo/oferta com mais intenção.</span></div><div class="dp"><span class="diag-icon">✅</span><span>Foram registrados 31 LPVs e 46 visualizações de conteúdo, então há avanço além do clique.</span></div><div class="subsection-title">Pontos de Atenção</div><div class="da"><span class="diag-icon">⚠️</span><span>Não houve base de investimento no período anterior, então a comparação percentual ainda não é útil; esta semana vira o primeiro benchmark.</span></div><div class="da"><span class="diag-icon">⚠️</span><span>A maior parte do investimento foi para tráfego/visitas, não necessariamente para intenção de compra direta.</span></div><div class="da"><span class="diag-icon">⚠️</span><span>Volume de conversas iniciadas ainda foi baixo, então o próximo ciclo precisa aproximar criativo/oferta de ação comercial.</span></div><div class="subsection-title">Hipóteses</div><div class="dh"><span class="diag-icon">🔍</span><span>Criativos com produto mais específico, como vestido estampado, tendem a gerar clique mais qualificado do que mensagem muito ampla.</span></div><div class="dh"><span class="diag-icon">🔍</span><span>A campanha de tráfego está boa para aquecer público, mas precisa de retargeting/oferta para capturar intenção.</span></div><div class="dh"><span class="diag-icon">🔍</span><span>A próxima melhora deve vir mais de variação de criativo/oferta do que simplesmente aumentar verba.</span></div><div class="subsection-title">Ações Tomadas</div><div class="da"><span class="diag-icon">⚠️</span><span>Usei 18 a 24 de maio como semana-base, porque o período anterior não teve investimento registrado.</span></div><div class="da"><span class="diag-icon">⚠️</span><span>Classifiquei o resultado principal como cliques no link, por ser o evento mais consistente da semana.</span></div>
+</div>
+
+<!-- Próximos Passos -->
+<div class="section reveal" id="proximos-passos">
+  <div class="section-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Próximos Passos</div>
+  <div class="ns-row"><span class="ns-num">1</span><span>Manter a campanha de tráfego rodando como base de volume, mas controlar para não consumir verba demais sem intenção comercial.</span></div><div class="ns-row"><span class="ns-num">2</span><span>Criar novas variações em cima do ângulo de vestido estampado/produto específico.</span></div><div class="ns-row"><span class="ns-num">3</span><span>Separar leitura de topo de funil (cliques/visitas) e fundo de funil (view content/conversas) no próximo relatório.</span></div><div class="ns-row"><span class="ns-num">4</span><span>Se houver catálogo/site preparado, testar criativos mais diretos para produto e chamada de compra.</span></div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- ════════ MOBILE BOTTOM NAV ════════ -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mobile-tab active" onclick="mobileNav(this,'cover')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Início</span></button>
+    <button class="mobile-tab" onclick="mobileNav(this,'mensagem')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Mensagem</span></button>
+    <button class="mobile-tab" onclick="mobileNav(this,'performance')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Stats</span></button>
+    <button class="mobile-tab" onclick="mobileNav(this,'criativos')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span>Ads</span></button>
+    <button class="mobile-tab" onclick="mobileNav(this,'diagnostico')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Diagnóstico</span></button>
+  </div>
+</nav>
+
+<script>
+// ── Chart.js setup ────────────────────────────────────────────────────────────
+const A = '#d4803a', T2C = '#8a8278', T3C = '#5a5650', SFC = '#1c1a17', CVC = '#0c0b09', AM2C = '#f0a050';
+Chart.defaults.color = T2C;
+Chart.defaults.borderColor = SFC + 'cc';
+Chart.defaults.font.family = "'Plus Jakarta Sans', system-ui, sans-serif";
+Chart.defaults.font.size = 11;
+
+const labels  = ["05-18", "05-19", "05-20", "05-21", "05-22", "05-23", "05-24"];
+const spends  = [0.0, 0.0, 0.0, 12.4, 30.37, 36.45, 54.48];
+const ctrs    = [0.0, 0.0, 0.0, 1.01, 2.14, 4.58, 2.49];
+const results = [0, 0, 0, 13, 53, 77, 166];
+const campLbls= ["TRAFEGO | VISITAS IG | M | 2", "VENDAS | M | 25-45 - aumenta"];
+const campCur = [87.6, 46.1];
+const campPrev= [0.0, 0.0];
+
+const tooltipPlugin = {
+  backgroundColor: '#1c1a17',
+  borderColor: '#5a565044',
+  borderWidth: 1,
+  titleColor: '#f0ece4',
+  bodyColor: '#8a8278',
+  padding: 10,
+  cornerRadius: 8,
+};
+
+// Gradient helper
+function grad(ctx, color, alpha1=0.35, alpha2=0.02) {
+  const g = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+  g.addColorStop(0, color + Math.round(alpha1*255).toString(16).padStart(2,'0'));
+  g.addColorStop(1, color + Math.round(alpha2*255).toString(16).padStart(2,'0'));
+  return g;
+}
+
+// Spend line
+(function() {
+  const ctx = document.getElementById('chartSpend').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: spends,
+        borderColor: A,
+        backgroundColor: grad(ctx, A),
+        borderWidth: 2.5,
+        pointRadius: 5, pointHoverRadius: 7,
+        pointBackgroundColor: A,
+        pointBorderColor: CVC, pointBorderWidth: 2,
+        tension: 0.4, fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: { duration: 1000, easing: 'easeOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tooltipPlugin, callbacks: { label: c => ' R$ ' + c.raw.toFixed(2).replace('.', ',') } }
+      },
+      scales: {
+        x: { grid: { color: SFC }, ticks: { color: T3C } },
+        y: { grid: { color: SFC }, ticks: { color: T3C, callback: v => 'R$' + v.toFixed(0) } }
+      }
+    }
+  });
+})();
+
+// CTR bars
+(function() {
+  const ctx = document.getElementById('chartCtr').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: ctrs, backgroundColor: A + 'bb', borderColor: A, borderWidth: 1, borderRadius: 5 }]
+    },
+    options: {
+      responsive: true,
+      animation: { duration: 800, easing: 'easeOutBack' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tooltipPlugin, callbacks: { label: c => ' ' + c.raw.toFixed(2).replace('.', ',') + '%' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: T3C } },
+        y: { grid: { color: SFC }, ticks: { color: T3C, callback: v => v + '%' } }
+      }
+    }
+  });
+})();
+
+// Results bars
+(function() {
+  const ctx = document.getElementById('chartRes').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: results, backgroundColor: AM2C + 'bb', borderColor: AM2C, borderWidth: 1, borderRadius: 5 }]
+    },
+    options: {
+      responsive: true,
+      animation: { duration: 800, easing: 'easeOutBack' },
+      plugins: { legend: { display: false }, tooltip: tooltipPlugin },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: T3C } },
+        y: { grid: { color: SFC }, ticks: { color: T3C, precision: 0 } }
+      }
+    }
+  });
+})();
+
+// Campaign horizontal bars
+(function() {
+  if (!campLbls.length) return;
+  const ctx = document.getElementById('chartCamps').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: campLbls,
+      datasets: [
+        { label: 'Atual',    data: campCur,  backgroundColor: A + 'cc', borderColor: A,    borderWidth: 1, borderRadius: 4 },
+        { label: 'Anterior', data: campPrev, backgroundColor: T3C+'88', borderColor: T3C, borderWidth: 1, borderRadius: 4 }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      animation: { duration: 900 },
+      plugins: {
+        legend: { labels: { color: T2C, boxWidth: 10, font: { size: 11 } } },
+        tooltip: { ...tooltipPlugin, callbacks: { label: c => ' R$ ' + c.raw.toFixed(2).replace('.', ',') } }
+      },
+      scales: {
+        x: { grid: { color: SFC }, ticks: { color: T3C, callback: v => 'R$' + v.toFixed(0) } },
+        y: { grid: { display: false }, ticks: { color: T2C } }
+      }
+    }
+  });
+})();
+
+// ── Counter animation ─────────────────────────────────────────────────────────
+function fmtCount(v, fmt) {
+  if (fmt === 'brl') {
+    if (v >= 1000) {
+      const s = v.toFixed(2);
+      const [int, dec] = s.split('.');
+      return 'R$ ' + int.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + dec;
+    }
+    return 'R$ ' + v.toFixed(2).replace('.', ',');
+  }
+  if (fmt === 'pct') return v.toFixed(1).replace('.', ',') + '%';
+  return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.count) || 0;
+  if (target === 0) return;
+  const fmt = el.dataset.format || 'num';
+  const duration = 1100;
+  const start = performance.now();
+  const delta = el.querySelector('.delta');
+  const deltaText = delta ? delta.outerHTML : '';
+
+  (function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.innerHTML = fmtCount(target * ease, fmt) + (p >= 1 ? deltaText : '');
+    if (p < 1) requestAnimationFrame(tick);
+  })(start);
+}
+
+// ── Scroll reveal + counter trigger ──────────────────────────────────────────
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // Animate counters inside this section
+      e.target.querySelectorAll('[data-count]').forEach(animateCounter);
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal, .stagger, .kpi-grid.stagger, .cover-hero').forEach(el => {
+  revealObs.observe(el);
+});
+
+// Animate cover counters on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.cover-hero [data-count]').forEach(animateCounter);
+});
+
+// ── Scroll spy (sidebar) ──────────────────────────────────────────────────────
+const sections = document.querySelectorAll('[id]');
+const navItems = document.querySelectorAll('.nav-item[data-section]');
+
+const spyObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => {
+        n.classList.toggle('active', n.dataset.section === e.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+
+sections.forEach(s => spyObs.observe(s));
+
+// ── Mobile nav ────────────────────────────────────────────────────────────────
+function mobileNav(btn, id) {
+  document.querySelectorAll('.mobile-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Copy WhatsApp ─────────────────────────────────────────────────────────────
+function copyWhatsApp(btn) {
+  const text = "Oi! Segue o resumo da semana da USE MJ, de 18 a 24 de maio. No per\u00edodo, investimos R$ 133.70 e geramos 309 cliques no link, com custo m\u00e9dio de R$ 0.43 por clique. A entrega ficou com 12599 impress\u00f5es, alcance de 11624 pessoas e CTR geral de 2.58%, que \u00e9 um bom sinal de interesse nos criativos.\n\nO ponto mais importante \u00e9 que tivemos 31 visualiza\u00e7\u00f5es de p\u00e1gina de destino e 46 visualiza\u00e7\u00f5es de conte\u00fado registradas. Ou seja: al\u00e9m do clique, parte do p\u00fablico avan\u00e7ou para conhecer melhor os produtos. Como no per\u00edodo anterior, de 11 a 17 de maio, n\u00e3o houve dados de investimento na conta, esta semana entra como nossa base inicial para compara\u00e7\u00e3o.\n\nNos criativos, os an\u00fancios de versatilidade concentraram boa parte do volume, enquanto os criativos de vestido estampado apareceram com CTR mais alto, indicando que esse \u00e2ngulo tem for\u00e7a para ser explorado melhor. Para a pr\u00f3xima semana, eu manteria o que est\u00e1 trazendo volume, mas testaria varia\u00e7\u00f5es mais diretas de produto/oferta para puxar mais inten\u00e7\u00e3o de compra. Faz sentido priorizarmos mais pe\u00e7as nesse estilo de vestido estampado?";
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><polyline points="20 6 9 17 4 12"/></svg> Copiado!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copiar mensagem`;
+    }, 2800);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><polyline points="20 6 9 17 4 12"/></svg> Copiado!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copiar mensagem`;
+    }, 2800);
+  });
+}
+</script>
+</body>
+</html>
