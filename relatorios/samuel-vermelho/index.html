@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel Vermelho — Pasta Estratégica</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --gold:#C2912E;
+  --gold-2:#A9791F;
+  --gold-soft:#EADFBF;
+  --bg:#FBF8F3;
+  --ink:#2B2622;
+  --muted:#6E635A;
+  --terra:#B5734A;
+  --moss:#4E5D4A;
+  --card:#FFFFFF;
+  --line:#E7DECF;
+  --shadow:0 8px 30px rgba(43,38,34,.08);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.2}
+
+/* layout */
+.shell{display:flex;min-height:100vh}
+.sidebar{
+  width:280px;flex-shrink:0;
+  background:linear-gradient(180deg,#241F1B 0%,#322A23 100%);
+  color:#EDE6DA;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+  padding:28px 18px;
+}
+.brand{display:flex;align-items:center;gap:12px;padding:0 6px 22px}
+.ring{width:42px;height:42px;flex-shrink:0}
+.brand b{font-family:'Fraunces',serif;font-size:18px;color:#fff;display:block;line-height:1.1}
+.brand span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft)}
+.navgroup{margin:18px 0 6px;padding:0 8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#8c8072}
+.navlink{
+  display:flex;align-items:center;gap:11px;
+  padding:9px 11px;border-radius:10px;cursor:pointer;
+  color:#D9D0C2;font-size:13.5px;font-weight:500;
+  transition:.18s;border:1px solid transparent;
+}
+.navlink:hover{background:rgba(255,255,255,.05);color:#fff}
+.navlink.active{background:rgba(194,145,46,.16);color:#fff;border-color:rgba(194,145,46,.4)}
+.navlink svg{width:17px;height:17px;flex-shrink:0;stroke:var(--gold);opacity:.9}
+.navlink.active svg{stroke:var(--gold-soft);opacity:1}
+
+.main{flex:1;min-width:0}
+.topbar{display:none}
+.wrap{max-width:920px;margin:0 auto;padding:54px 48px 90px}
+
+.page{display:none;animation:fade .35s ease}
+.page.show{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:10px}
+.page h1{font-size:38px;margin-bottom:10px}
+.page h2{font-size:25px;margin:34px 0 14px}
+.page h3{font-size:18px;margin:22px 0 8px}
+.lead{font-size:18px;color:var(--muted);margin-bottom:8px}
+p{margin-bottom:12px}
+.page ul{margin:0 0 14px 4px;list-style:none}
+.page ul li{position:relative;padding-left:22px;margin-bottom:8px;color:#3d362f}
+.page ul li::before{content:"";position:absolute;left:2px;top:10px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+
+/* cover */
+.cover{
+  background:
+    radial-gradient(900px 500px at 85% -10%,rgba(194,145,46,.18),transparent 60%),
+    linear-gradient(160deg,#2B2521 0%,#3A312A 100%);
+  color:#F4EEE3;border-radius:24px;padding:60px 54px;position:relative;overflow:hidden;
+  box-shadow:var(--shadow);margin-bottom:30px;
+}
+.cover .eyebrow{color:var(--gold-soft)}
+.cover h1{font-size:46px;color:#fff;max-width:16ch;margin-bottom:18px}
+.cover p{font-size:18px;color:#D8CFC0;max-width:54ch}
+.cover .bigring{position:absolute;right:-60px;bottom:-80px;width:340px;height:340px;opacity:.16}
+.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(194,145,46,.16);border:1px solid rgba(194,145,46,.4);color:var(--gold-soft);padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-top:26px}
+
+/* cards / grid */
+.grid{display:grid;gap:16px;margin:18px 0}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 6px}
+.card .ico{width:38px;height:38px;border-radius:10px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.card .ico svg{width:20px;height:20px;stroke:var(--gold-2)}
+.muted{color:var(--muted);font-size:14.5px}
+
+.callout{background:linear-gradient(135deg,#FFF8EC,#FDF1DE);border:1px solid var(--gold-soft);border-left:4px solid var(--gold);border-radius:12px;padding:18px 20px;margin:18px 0}
+.callout b{color:var(--gold-2)}
+.danger{background:#FCF1EE;border:1px solid #E9C9BE;border-left:4px solid var(--terra);border-radius:12px;padding:18px 20px;margin:18px 0}
+.danger b{color:#9E4A29}
+
+.tag{display:inline-block;background:var(--gold-soft);color:var(--gold-2);font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:6px;text-transform:uppercase}
+
+/* offer ladder */
+.ladder{display:flex;flex-direction:column;gap:0;margin:22px 0}
+.rung{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:18px;box-shadow:var(--shadow);position:relative}
+.rung .num{width:34px;height:34px;flex-shrink:0;border-radius:50%;background:var(--ink);color:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Fraunces',serif}
+.rung .price{margin-left:auto;font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--gold-2);white-space:nowrap}
+.rung h4{font-size:16px;margin-bottom:2px}
+.rung .desc{font-size:13px;color:var(--muted)}
+.arrowdown{height:18px;display:flex;justify-content:center;align-items:center;color:var(--gold)}
+.arrowdown svg{width:18px;height:18px;stroke:var(--gold)}
+
+/* flow box */
+.flow{font-family:'Inter',monospace;background:#241F1B;color:#E9DEC8;border-radius:14px;padding:22px 24px;font-size:14px;line-height:2;overflow-x:auto}
+.flow .hl{color:var(--gold)}
+
+/* steps */
+.step{display:flex;gap:16px;margin-bottom:16px}
+.step .dot{width:30px;height:30px;flex-shrink:0;border-radius:50%;border:2px solid var(--gold);color:var(--gold-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;background:#fff}
+.step .b{font-weight:600}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13px;color:#4a423a}
+.chip.bad{background:#FCF1EE;border-color:#E9C9BE;color:#9E4A29}
+.chip.good{background:#F0F4EE;border-color:#cfdcc7;color:var(--moss)}
+
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+th{background:#F3ECDD;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--gold-2)}
+tr:last-child td{border-bottom:none}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;box-shadow:var(--shadow)}
+.metric .v{font-family:'Fraunces',serif;font-size:26px;color:var(--gold-2);font-weight:600}
+.metric .l{font-size:12px;color:var(--muted);margin-top:2px}
+
+.footer-note{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+.menutoggle{display:none}
+
+@media(max-width:860px){
+  .sidebar{position:fixed;left:0;top:0;z-index:50;transform:translateX(-100%);transition:.3s;width:260px}
+  .sidebar.open{transform:none}
+  .topbar{display:flex;align-items:center;gap:14px;padding:14px 20px;background:#241F1B;color:#fff;position:sticky;top:0;z-index:40}
+  .topbar .ring{width:30px;height:30px}
+  .topbar b{font-family:'Fraunces',serif}
+  .menutoggle{display:flex;background:none;border:none;cursor:pointer;padding:4px}
+  .menutoggle svg{width:26px;height:26px;stroke:#fff}
+  .wrap{padding:28px 20px 70px}
+  .g2,.g3,.metrics{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .cover{padding:38px 26px}
+  .cover h1{font-size:32px}
+  .page h1{font-size:30px}
+  .scrim.show{display:block}
+}
+.scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:45}
+</style>
+</head>
+<body>
+
+<!-- mobile topbar -->
+<div class="topbar">
+  <button class="menutoggle" onclick="toggleMenu()" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <svg class="ring" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" stroke="#C2912E" stroke-width="3"/><path d="M24 6a18 18 0 0 1 0 36" stroke="#EADFBF" stroke-width="3"/></svg>
+  <b>Samuel Vermelho</b>
+</div>
+<div class="scrim" id="scrim" onclick="toggleMenu()"></div>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <svg class="ring" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="18" stroke="#C2912E" stroke-width="3.5"/>
+        <path d="M24 6a18 18 0 0 1 0 36" stroke="#EADFBF" stroke-width="3.5"/>
+      </svg>
+      <div><b>Samuel Vermelho</b><span>Pasta Estratégica</span></div>
+    </div>
+
+    <div class="navgroup">Estratégia</div>
+    <div class="navlink active" data-p="capa"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Visão geral</div>
+    <div class="navlink" data-p="resumo"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>Resumo executivo</div>
+    <div class="navlink" data-p="posicionamento"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>Posicionamento</div>
+    <div class="navlink" data-p="avatar"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/><path d="M19 8l2 2-2 2"/></svg>Avatar &amp; dores</div>
+    <div class="navlink" data-p="gargalos"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M10 2v6L4 20a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1L14 8V2"/><path d="M8 2h8"/></svg>Gargalos</div>
+
+    <div class="navgroup">Ofertas</div>
+    <div class="navlink" data-p="teia"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4M12 11l-6 6M12 11l6 6"/></svg>Teia de ofertas</div>
+    <div class="navlink" data-p="ofertas"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="20" cy="18" r="1.5"/></svg>As 5 ofertas</div>
+    <div class="navlink" data-p="metodo"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>Método (4 pilares)</div>
+
+    <div class="navgroup">Execução</div>
+    <div class="navlink" data-p="comunicacao"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Comunicação</div>
+    <div class="navlink" data-p="visual"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.4-.4-.5-.9-.5-1.4 0-1.1.9-2 2-2h2.5A4.5 4.5 0 0 0 22 10.5 8.5 8.5 0 0 0 12 2z"/></svg>Direção visual</div>
+    <div class="navlink" data-p="scripts"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg>Scripts WhatsApp</div>
+    <div class="navlink" data-p="campanha"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>Campanha 7 dias</div>
+    <div class="navlink" data-p="comercial"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Estratégia comercial</div>
+    <div class="navlink" data-p="objecoes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>Objeções</div>
+
+    <div class="navgroup">Segurança &amp; gestão</div>
+    <div class="navlink" data-p="triagem"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/><path d="M12 8v4M12 16h.01"/></svg>Triagem &amp; ética</div>
+    <div class="navlink" data-p="plano"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Plano 30 dias</div>
+    <div class="navlink" data-p="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>Dashboard</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="wrap">
+
+      <!-- CAPA -->
+      <section class="page show" id="capa">
+        <div class="cover">
+          <svg class="bigring" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#C2912E" stroke-width="2"/><path d="M24 4a20 20 0 0 1 0 40" stroke="#EADFBF" stroke-width="2"/></svg>
+          <div class="eyebrow">Posicionamento • Ofertas • Vendas</div>
+          <h1>Transformar audiência em caixa — começando por quem ainda quer tentar</h1>
+          <p>Seu problema não é atenção. É escada de oferta. Esta pasta organiza o caminho do seguidor emocionado até o processo terapêutico, com método, scripts e segurança.</p>
+          <div class="pill">A entrada é a esposa. Depois vem o casal.</div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric"><div class="v">~80k</div><div class="l">seguidores em ~2 meses</div></div>
+          <div class="metric"><div class="v">+100</div><div class="l">contatos por mês</div></div>
+          <div class="metric"><div class="v">~40%</div><div class="l">viram conversa real</div></div>
+          <div class="metric"><div class="v">80–85%</div><div class="l">de quem chama é a esposa</div></div>
+        </div>
+
+        <h2>O que tem nesta pasta</h2>
+        <div class="grid g3">
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="10"/></svg></div><h3>Posicionamento</h3><p class="muted">Quem ele ajuda, quem ele não ajuda e a tese contra o mercado.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h12"/></svg></div><h3>5 ofertas em escada</h3><p class="muted">De R$47 ao processo de R$4.500+, cada uma puxando a próxima.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Scripts &amp; campanha</h3><p class="muted">WhatsApp, objeções e uma campanha de 7 dias para caixa rápido.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div><h3>Método dos 4 pilares</h3><p class="muted">O círculo dourado vira método: Escuta, Presença, Verdade, Acordos.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/></svg></div><h3>Triagem &amp; ética</h3><p class="muted">Casos de risco saem do funil. Segurança acima de venda.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div><h3>Plano &amp; métricas</h3><p class="muted">30 dias por papel e um dashboard de funil para decidir com dados.</p></div>
+        </div>
+
+        <div class="callout"><b>A virada em uma frase:</b> parar de vender “terapia de casal” no primeiro contato. Vender primeiro para a esposa que ainda quer tentar — e que sente que está tentando sozinha. Depois trazer o casal.</div>
+      </section>
+
+      <!-- RESUMO -->
+      <section class="page" id="resumo">
+        <div class="eyebrow">Documento 01</div>
+        <h1>Resumo executivo</h1>
+        <p class="lead">O problema não é atenção. É monetização, oferta e conversão.</p>
+
+        <h2>O problema central</h2>
+        <p>A esposa chega sozinha, dizendo que ainda quer tentar, mas já não tem esperança. A resposta atual é: “traz teu marido e paga ~R$1.800/mês.” Isso trava por dois motivos somados:</p>
+        <ul>
+          <li><b>Adesão do marido</b> — ela ainda não conseguiu trazer ele para a mesa.</li>
+          <li><b>Preço de entrada alto</b> — o primeiro “sim” exige um compromisso grande, caro e a dois.</li>
+        </ul>
+        <div class="callout"><b>Resultado:</b> atenção altíssima, caixa baixo.</div>
+
+        <h2>A grande virada</h2>
+        <div class="flow">
+          Esposa compra um 1º passo barato <span class="hl">→</span> muda de postura <span class="hl">→</span><br>
+          marido percebe a mudança <span class="hl">→</span> marido se aproxima <span class="hl">→</span><br>
+          <span class="hl">aí</span> vende-se o diagnóstico do casal <span class="hl">→</span> depois o processo principal.
+        </div>
+
+        <h2>Principais gargalos</h2>
+        <div class="grid g2">
+          <div class="card muted">1 — Conteúdo gera atenção mas não conduz à oferta</div>
+          <div class="card muted">2 — Lead chega sozinho (a esposa)</div>
+          <div class="card muted">3 — Marido resiste à terapia</div>
+          <div class="card muted">4 — A venda exige os dois já prontos</div>
+          <div class="card muted">5 — Preço mensal (~R$1.800) assusta</div>
+          <div class="card muted">6 — Sessão avulsa parece commodity</div>
+          <div class="card muted">7 — Falta método nomeado</div>
+          <div class="card muted">8 — Falta script comercial forte</div>
+          <div class="card muted">9 — Falta produto de entrada</div>
+          <div class="card muted">10 — Falta triagem estruturada</div>
+        </div>
+      </section>
+
+      <!-- POSICIONAMENTO -->
+      <section class="page" id="posicionamento">
+        <div class="eyebrow">Documento 02</div>
+        <h1>Posicionamento central</h1>
+        <p class="lead">Samuel não é “mais um terapeuta de casal”. É quem ajuda mulheres que ainda querem tentar a parar de se destruir tentando ser ouvidas.</p>
+
+        <div class="callout"><b>Frase-mãe:</b> “Para mulheres que ainda querem salvar o casamento, mas não sabem mais como falar sem virar cobrança, briga ou silêncio.”</div>
+
+        <div class="grid g2">
+          <div class="card">
+            <h3>Quem ele ajuda</h3>
+            <ul>
+              <li>Mulher que ainda ama e ainda quer tentar</li>
+              <li>Quem se sente invisível, não ouvida, não amada</li>
+              <li>Casais que querem tentar com maturidade</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Quem ele NÃO ajuda</h3>
+            <ul>
+              <li>Quem já decidiu separar</li>
+              <li>Quem quer manipular o cônjuge</li>
+              <li>Casos de violência, ameaça ou medo (vão para triagem)</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>A crença central</h2>
+        <div class="callout">Ainda existe amor. O que quebrou foi a comunicação. <b>Cuidado ético:</b> “tudo é reconstruível” é bonito, mas perigoso — nem tudo deve ser reconstruído.</div>
+
+        <h2>A tese contra o mercado</h2>
+        <p>O mercado vive de duas mentiras opostas: <i>“largue tudo, você merece mais”</i> e <i>“salve seu casamento custe o que custar”</i>. A tese do Samuel fica no meio maduro:</p>
+        <div class="callout"><b>Não é sobre salvar qualquer casamento. É sobre ajudar quem ainda quer tentar — com maturidade, verdade e limite.</b></div>
+      </section>
+
+      <!-- AVATAR -->
+      <section class="page" id="avatar">
+        <div class="eyebrow">Documento 03</div>
+        <h1>Avatar &amp; dores</h1>
+        <p class="lead">Ela — esposa, 30 a 50 anos. Ainda ama. Ainda quer tentar. Mas se sente invisível e está exausta de tentar sozinha.</p>
+
+        <div class="grid g2">
+          <div class="card"><h3>Dores visíveis (o que fala)</h3>
+            <ul><li>“Ele não me escuta.”</li><li>“Ele não repara mais em mim.”</li><li>“Ele só trabalha, vive distante.”</li><li>“Menospreza tudo o que eu falo.”</li></ul>
+          </div>
+          <div class="card"><h3>Dores invisíveis (o que sente)</h3>
+            <ul><li>Medo de ter deixado de ser desejada</li><li>Vergonha de ainda estar tentando</li><li>Solidão dentro do próprio casamento</li><li>Medo de que o problema seja ela</li></ul>
+          </div>
+        </div>
+
+        <h2>Frases reais do direct</h2>
+        <div class="chips">
+          <span class="chip">“Eu ainda amo ele, mas não aguento mais.”</span>
+          <span class="chip">“Sinto que ele nem me vê mais.”</span>
+          <span class="chip">“Quero tentar, mas já não tenho esperança.”</span>
+          <span class="chip">“Ele nunca vai aceitar fazer terapia.”</span>
+          <span class="chip">“Será que ainda dá?”</span>
+        </div>
+
+        <div class="danger"><b>Casos sensíveis (saem do funil):</b> agressão, ameaça, medo, coerção e abuso não são “problema de comunicação”. Vão para o protocolo de triagem. Na dúvida entre vender e proteger — protege.</div>
+      </section>
+
+      <!-- GARGALOS -->
+      <section class="page" id="gargalos">
+        <div class="eyebrow">Documento 04</div>
+        <h1>Gargalos &amp; correções</h1>
+        <p class="lead">Onde o dinheiro vaza hoje — e o que conserta cada ponto.</p>
+        <table>
+          <tr><th>Gargalo</th><th>Correção</th></tr>
+          <tr><td>Conteúdo sem CTA</td><td>Padronizar <b>AINDA DÁ</b> + conteúdo que leva à aula</td></tr>
+          <tr><td>Lead chega sozinho</td><td>Oferta que ela compra e executa sozinha</td></tr>
+          <tr><td>Marido resiste</td><td>Vender primeiro a mudança de postura dela</td></tr>
+          <tr><td>Exige os dois prontos</td><td>Escalonar a escada de ofertas</td></tr>
+          <tr><td>Preço mensal assusta</td><td>Vender processo fechado parcelado, nunca “R$1.800/mês”</td></tr>
+          <tr><td>Sessão = commodity</td><td>Transformar em processo nomeado</td></tr>
+          <tr><td>Sem método</td><td>Círculo dourado vira método com 4 pilares</td></tr>
+          <tr><td>Sem script</td><td>Script completo de WhatsApp</td></tr>
+          <tr><td>Sem produto de entrada</td><td>Aula R$47 + Sessão R$297</td></tr>
+          <tr><td>Sem triagem</td><td>Protocolo de segurança obrigatório</td></tr>
+        </table>
+      </section>
+
+      <!-- TEIA -->
+      <section class="page" id="teia">
+        <div class="eyebrow">Documento 05</div>
+        <h1>Teia de ofertas</h1>
+        <p class="lead">Nada é produto solto. É escada de decisão: cada degrau tem função e puxa o próximo.</p>
+
+        <div class="ladder">
+          <div class="rung"><span class="num">1</span><div><h4>Aula — 3 Conversas Antes de Desistir</h4><div class="desc">Vira seguidor em comprador • esposa sozinha</div></div><span class="price">R$47</span></div>
+          <div class="arrowdown"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+          <div class="rung"><span class="num">2</span><div><h4>Sessão — Convite Sem Guerra</h4><div class="desc">Resolve “marido não aceita terapia”</div></div><span class="price">R$297</span></div>
+          <div class="arrowdown"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+          <div class="rung"><span class="num">3</span><div><h4>Diagnóstico — Ainda Dá?</h4><div class="desc">Ponte: dor vira decisão • os dois na mesa</div></div><span class="price">R$497</span></div>
+          <div class="arrowdown"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+          <div class="rung"><span class="num">4</span><div><h4>Processo — Tentar Mais Uma Vez</h4><div class="desc">10–12 semanas • o caixa de verdade</div></div><span class="price">R$4.500–5.400</span></div>
+          <div class="arrowdown"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+          <div class="rung"><span class="num">5</span><div><h4>Manutenção Conjugal</h4><div class="desc">Continuidade • receita recorrente</div></div><span class="price">R$900–1.800/mês</span></div>
+        </div>
+
+        <h2>Fluxos por temperatura do lead</h2>
+        <div class="grid g2">
+          <div class="card"><span class="tag">Frio</span><p class="muted" style="margin-top:8px">Conteúdo + stories → <b>Aula R$47</b></p></div>
+          <div class="card"><span class="tag">Morno</span><p class="muted" style="margin-top:8px">Aula → Sessão R$297 → <b>Diagnóstico R$497</b></p></div>
+          <div class="card"><span class="tag">Quente</span><p class="muted" style="margin-top:8px">Triagem → <b>Diagnóstico R$497</b> → Processo</p></div>
+          <div class="card"><span class="tag">Quentíssimo</span><p class="muted" style="margin-top:8px">Diagnóstico rápido → <b>Processo direto</b></p></div>
+        </div>
+        <div class="danger"><b>Caso com risco clínico:</b> triagem de segurança → não vende → encaminhamento e rede de apoio.</div>
+      </section>
+
+      <!-- OFERTAS -->
+      <section class="page" id="ofertas">
+        <div class="eyebrow">Documentos 06 a 10</div>
+        <h1>As 5 ofertas em detalhe</h1>
+
+        <div class="card" style="margin-bottom:16px">
+          <span class="tag">R$47 • Caixa rápido</span>
+          <h3 style="margin-top:8px">3 Conversas Antes de Desistir</h3>
+          <p class="muted">Aula ao vivo + replay 7 dias, para mulheres que ainda querem tentar mas não sabem conversar sem virar briga. Entrega as 3 conversas (dor sem acusação, ausência sem cobrança, futuro sem ameaça) e um roteiro para chamar o marido. <b>Leva para:</b> Sessão R$297 ou Diagnóstico R$497.</p>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <span class="tag">R$297 • Primeira orientação</span>
+          <h3 style="margin-top:8px">Convite Sem Guerra</h3>
+          <p class="muted">Sessão individual para a esposa que quer ajuda, mas o marido ainda não aceita terapia. Encaixa no comportamento real: ela chega sozinha, então vende-se algo que ela compra sozinha. Prepara o convite maduro ao marido. <b>Leva para:</b> Diagnóstico R$497.</p>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <span class="tag">R$497 • Ponte</span>
+          <h3 style="margin-top:8px">Diagnóstico Conjugal: Ainda Dá?</h3>
+          <p class="muted">Sessão com o casal para mapear o ciclo de brigas, ver onde a comunicação quebrou e avaliar se existe base real para reconstruir. Valor é abatido se fecharem o processo — reduz atrito sem desvalorizar. <b>Leva para:</b> Processo.</p>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <span class="tag">R$4.500–5.400 • Produto principal</span>
+          <h3 style="margin-top:8px">Tentar Mais Uma Vez</h3>
+          <p class="muted">10–12 semanas reconstruindo comunicação, presença e acordos. Transforma sessão avulsa em processo. <b>Regra de ouro:</b> nunca dizer “R$1.800/mês” — sempre “processo completo R$4.500, em até 12x”. <b>Limite ético:</b> não promete salvar o casamento.</p>
+        </div>
+        <div class="card">
+          <span class="tag">R$900–1.800/mês • Continuidade</span>
+          <h3 style="margin-top:8px">Manutenção Conjugal</h3>
+          <p class="muted">Encontros mensais ou quinzenais para o casal não voltar ao ciclo antigo. Enquadramento: tem meta de alta, não é dependência infinita.</p>
+        </div>
+      </section>
+
+      <!-- METODO -->
+      <section class="page" id="metodo">
+        <div class="eyebrow">Documento 18</div>
+        <h1>Método dos 4 pilares</h1>
+        <p class="lead">O círculo dourado vira método. Um círculo só se fecha com os dois lados — a reconstrução também.</p>
+
+        <div class="grid g2">
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg></div><h3>1 · Escuta</h3><p class="muted">Voltar a se ouvir. Sair do ciclo cobrança → briga → silêncio.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg></div><h3>2 · Presença</h3><p class="muted">Estar de verdade. Atacar a invisibilidade que ela sente.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div><h3>3 · Verdade</h3><p class="muted">Olhar o ciclo sem se enganar. Reconhecer quando dá e quando não dá.</p></div>
+          <div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 14l2 2 4-4"/></svg></div><h3>4 · Acordos</h3><p class="muted">Construir um novo jeito de conviver. Sustenta a mudança.</p></div>
+        </div>
+        <div class="callout"><b>Frase do método:</b> “Não dá pra fechar o círculo gritando. Dá pra fechar com escuta, presença, verdade e acordos.” &nbsp; <b>E.P.V.A.</b> — quatro arcos que fecham a aliança.</div>
+      </section>
+
+      <!-- COMUNICACAO -->
+      <section class="page" id="comunicacao">
+        <div class="eyebrow">Documento 11</div>
+        <h1>Comunicação no Instagram</h1>
+        <p class="lead">Tom firme, acolhedor e protetor do casamento — sem romantizar sofrimento.</p>
+
+        <h2>Pilares editoriais</h2>
+        <div class="chips">
+          <span class="chip">React emocional</span><span class="chip">Dor invisível</span><span class="chip">Princípios do Samuel</span><span class="chip">Quebra de crença</span><span class="chip">Convite para a aula</span><span class="chip">Prova social anônima</span><span class="chip">Bastidores familiares</span><span class="chip">Triagem &amp; segurança</span>
+        </div>
+
+        <h2>Banco de conteúdo</h2>
+        <div class="metrics">
+          <div class="metric"><div class="v">30</div><div class="l">ideias de post</div></div>
+          <div class="metric"><div class="v">30</div><div class="l">ganchos</div></div>
+          <div class="metric"><div class="v">20</div><div class="l">stories com enquete</div></div>
+          <div class="metric"><div class="v">20</div><div class="l">CTAs “AINDA DÁ”</div></div>
+        </div>
+
+        <div class="grid g2">
+          <div class="card"><h3 style="color:var(--moss)">Palavras a usar</h3>
+            <div class="chips"><span class="chip good">ainda dá</span><span class="chip good">reconstruir</span><span class="chip good">ser ouvida</span><span class="chip good">presença</span><span class="chip good">maturidade</span><span class="chip good">base real</span></div>
+          </div>
+          <div class="card"><h3 style="color:#9E4A29">Palavras a evitar</h3>
+            <div class="chips"><span class="chip bad">transformação</span><span class="chip bad">jornada incrível</span><span class="chip bad">desbloqueio</span><span class="chip bad">milagre</span><span class="chip bad">mindset</span><span class="chip bad">destravar</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISUAL -->
+      <section class="page" id="visual">
+        <div class="eyebrow">Documento 12</div>
+        <h1>Direção visual</h1>
+        <p class="lead">Acolhimento, seriedade, família, aliança, reconstrução, maturidade. Nada de estética de guru.</p>
+
+        <h2>Paleta</h2>
+        <div class="chips">
+          <span class="chip" style="background:#C2912E;color:#fff;border-color:#C2912E">Dourado · aliança</span>
+          <span class="chip" style="background:#FBF8F3">Areia / off-white</span>
+          <span class="chip" style="background:#B5734A;color:#fff;border-color:#B5734A">Terracota</span>
+          <span class="chip" style="background:#4E5D4A;color:#fff;border-color:#4E5D4A">Verde-musgo</span>
+        </div>
+
+        <div class="grid g2">
+          <div class="card"><h3>O círculo dourado</h3><p class="muted">A aliança = o vínculo que ainda existe. Usado como selo sutil de autoridade, dividido em 4 arcos (os pilares do método).</p></div>
+          <div class="card"><h3>Como evitar o genérico</h3><p class="muted">Fugir de divã, plantinha e fonte “psi”. Rosto e olhar do Samuel, luz quente, tipografia firme e humana.</p></div>
+          <div class="card"><h3>Fotos de família</h3><p class="muted">Bastidor pontual ligado a um princípio — presença real, não vitrine de “família perfeita”.</p></div>
+          <div class="card"><h3>Criativos de anúncio</h3><p class="muted">Rosto + fala direta, gancho nos 3 primeiros segundos, legenda embutida, estética nativa.</p></div>
+        </div>
+        <div class="danger"><b>Ética nos prints:</b> sempre com consentimento, sempre anonimizados. Nunca usar caso de risco como prova social.</div>
+      </section>
+
+      <!-- SCRIPTS -->
+      <section class="page" id="scripts">
+        <div class="eyebrow">Documento 13</div>
+        <h1>Scripts de WhatsApp</h1>
+        <p class="lead">A assistente para de improvisar. Triagem antes de oferta, segurança acima de venda.</p>
+
+        <h2>Triagem em 3 perguntas</h2>
+        <div class="step"><span class="dot">1</span><div><span class="b">Intenção:</span> ainda quer reconstruir, ou busca se separar com menos sofrimento?</div></div>
+        <div class="step"><span class="dot">2</span><div><span class="b">Adesão do marido:</span> ele aceita ajuda, ou ela precisa entender como chamá-lo?</div></div>
+        <div class="step"><span class="dot">3</span><div><span class="b">Segurança:</span> existe agressão, ameaça, medo ou algo que a faça se sentir insegura?</div></div>
+
+        <h2>Separação de caminhos</h2>
+        <table>
+          <tr><th>Situação</th><th>Oferta</th></tr>
+          <tr><td>Esposa sozinha, marido resiste</td><td>Aula R$47 / Sessão R$297</td></tr>
+          <tr><td>Casal disposto a sentar junto</td><td>Diagnóstico R$497</td></tr>
+          <tr><td>Casal já decidido a tentar</td><td>Diagnóstico → Processo</td></tr>
+          <tr><td>Agressão / medo / ameaça</td><td>Triagem → não vende → encaminha</td></tr>
+        </table>
+        <p class="muted">Inclui scripts prontos de venda das 3 ofertas, follow-up (24–48h), objeção de preço, “vou falar com meu marido”, “meu marido não quer” e “preciso pensar”.</p>
+      </section>
+
+      <!-- CAMPANHA -->
+      <section class="page" id="campanha">
+        <div class="eyebrow">Documento 14</div>
+        <h1>Campanha de caixa rápido — 7 dias</h1>
+        <p class="lead">Gerar caixa imediato com a Aula R$47 e criar uma lista de compradores.</p>
+
+        <div class="step"><span class="dot">1</span><div><span class="b">Aquecimento</span> — “Tem casal que não precisa terminar. Precisa parar de se machucar tentando conversar.”</div></div>
+        <div class="step"><span class="dot">2</span><div><span class="b">Dor</span> — o ciclo grito → fechamento → guerra. CTA: AINDA DÁ.</div></div>
+        <div class="step"><span class="dot">3</span><div><span class="b">Princípio</span> — “Só trabalho com quem ainda quer tentar mais uma vez.”</div></div>
+        <div class="step"><span class="dot">4</span><div><span class="b">Abertura da oferta</span> — anúncio da aula R$47.</div></div>
+        <div class="step"><span class="dot">5</span><div><span class="b">Objeções</span> — “meu marido não vai assistir”, “e se eu descobrir que acabou?”</div></div>
+        <div class="step"><span class="dot">6</span><div><span class="b">Última chamada</span> — prova de demanda anônima, contagem regressiva.</div></div>
+        <div class="step"><span class="dot">7</span><div><span class="b">Aula + oferta</span> — no fim, Sessão R$297 ou Diagnóstico R$497.</div></div>
+
+        <h2>Meta (cenário-base)</h2>
+        <div class="metrics">
+          <div class="metric"><div class="v">100</div><div class="l">vendas da aula = R$4.700</div></div>
+          <div class="metric"><div class="v">10</div><div class="l">sessões R$297 = R$2.970</div></div>
+          <div class="metric"><div class="v">5</div><div class="l">diagnósticos = R$2.485</div></div>
+          <div class="metric"><div class="v">~R$10k</div><div class="l">caixa imediato possível</div></div>
+        </div>
+        <p class="muted">Metas são alvo de trabalho, não promessa — ajustar pelos números reais do dashboard.</p>
+      </section>
+
+      <!-- COMERCIAL -->
+      <section class="page" id="comercial">
+        <div class="eyebrow">Documento 15</div>
+        <h1>Estratégia comercial</h1>
+        <p class="lead">Sair de sessão avulsa para processo, e vender sem parecer vendedor.</p>
+
+        <div class="flow">R$47 <span class="hl">→</span> R$297 <span class="hl">→</span> R$497 <span class="hl">→</span> R$4.500+ <span class="hl">→</span> Manutenção</div>
+
+        <div class="grid g2">
+          <div class="card"><h3>Como apresentar o preço</h3>
+            <p class="muted"><span style="color:#9E4A29">✕</span> “São R$1.800 por mês.”<br><span style="color:var(--moss)">✓</span> “Processo completo R$4.500, em até 12x.” Ancorar o valor antes do número.</p>
+          </div>
+          <div class="card"><h3>Vender sem parecer vendedor</h3>
+            <p class="muted">Diagnosticar, não empurrar. Oferecer o degrau que cabe. Falar de “próximo passo”, não de “fechar venda”. Dar permissão para não decidir hoje.</p>
+          </div>
+        </div>
+
+        <h2>Rotina semanal</h2>
+        <table>
+          <tr><th>Dia</th><th>Foco</th></tr>
+          <tr><td>Segunda</td><td>Planejar metas e listar follow-ups</td></tr>
+          <tr><td>Quarta</td><td>Checar topo do funil e ajustar conteúdo</td></tr>
+          <tr><td>Sexta</td><td>Consolidar vendas, conversão e 1 ajuste</td></tr>
+        </table>
+      </section>
+
+      <!-- OBJECOES -->
+      <section class="page" id="objecoes">
+        <div class="eyebrow">Documento 16</div>
+        <h1>Objeções &amp; respostas</h1>
+        <p class="lead">Acolher antes de rebater. Verdade acima de fechamento. Versões para a assistente e para o Samuel.</p>
+
+        <div class="grid g2">
+          <div class="card"><h3>“Está caro”</h3><p class="muted">O começo não precisa ser o processo inteiro. Dá pra começar pela aula de R$47. Você não decide tudo hoje — só o primeiro passo.</p></div>
+          <div class="card"><h3>“Meu marido não vai aceitar”</h3><p class="muted">O mais comum. Ele se move quando percebe mudança na esposa. Por isso existe um caminho que ela começa sozinha.</p></div>
+          <div class="card"><h3>“Preciso pensar”</h3><p class="muted">O que você está adiando — a decisão, ou a conversa que tem medo de ter?</p></div>
+          <div class="card"><h3>“Tenho medo de descobrir que acabou”</h3><p class="muted">Viver na dúvida dói mais. E quase sempre o que acabou foi a conversa, não o vínculo.</p></div>
+        </div>
+        <p class="muted">O documento traz ainda: “tenho vergonha”, “já tentei terapia”, “não sei se ainda amo”, “ele me traiu” e “ele não muda”.</p>
+      </section>
+
+      <!-- TRIAGEM -->
+      <section class="page" id="triagem">
+        <div class="eyebrow">Documento 17</div>
+        <h1>Triagem ética &amp; segurança</h1>
+        <p class="lead">Aqui não é marketing. É responsabilidade. Protege o paciente, o Samuel e a agência.</p>
+
+        <div class="danger"><b>Princípio inegociável:</b> marketing nunca atropela segurança. Casos de risco saem do funil comercial. Na dúvida entre vender e proteger — protege.</div>
+
+        <h2>Não tratar como “problema de comunicação”</h2>
+        <div class="chips">
+          <span class="chip bad">Agressão física</span><span class="chip bad">Ameaça</span><span class="chip bad">Medo do parceiro</span><span class="chip bad">Coerção / controle</span><span class="chip bad">Abuso</span><span class="chip bad">Risco imediato</span>
+        </div>
+
+        <h2>Encaminhamento (Brasil)</h2>
+        <table>
+          <tr><th>Canal</th><th>Para</th></tr>
+          <tr><td>Disque 180</td><td>Central de Atendimento à Mulher (24h, sigiloso)</td></tr>
+          <tr><td>Disque 190</td><td>Polícia Militar — risco imediato</td></tr>
+          <tr><td>Disque 100</td><td>Direitos Humanos</td></tr>
+          <tr><td>Delegacia da Mulher / CRAM</td><td>Rede local de apoio</td></tr>
+        </table>
+        <p class="muted">A assistente acolhe, não vende e direciona. Não faz aconselhamento de crise.</p>
+      </section>
+
+      <!-- PLANO -->
+      <section class="page" id="plano">
+        <div class="eyebrow">Documento 19</div>
+        <h1>Plano de execução — 30 dias</h1>
+        <p class="lead">Tira a estratégia do papel, semana a semana, por papel.</p>
+
+        <div class="grid g2">
+          <div class="card"><span class="tag">Semana 1</span><h3 style="margin-top:8px">Estruturar &amp; vender a aula</h3><p class="muted">Checkout no ar, lista “Ainda Dá”, script da assistente, campanha rodando, leads antigos reativados.</p></div>
+          <div class="card"><span class="tag">Semana 2</span><h3 style="margin-top:8px">Rodar a aula &amp; converter</h3><p class="muted">Aula ao vivo, oferta no fim, sessões R$297 e diagnósticos R$497 vendidos.</p></div>
+          <div class="card"><span class="tag">Semana 3</span><h3 style="margin-top:8px">Vender o processo</h3><p class="muted">Diagnósticos recomendam o processo. Preço fechado parcelado.</p></div>
+          <div class="card"><span class="tag">Semana 4</span><h3 style="margin-top:8px">Ajustar &amp; escalar</h3><p class="muted">Analisar conversão, ajustar o gargalo mais fraco, decidir o próximo ciclo.</p></div>
+        </div>
+        <div class="callout"><b>Checklist diário:</b> postar conteúdo • rodar stories • responder todos os AINDA DÁ com triagem • enviar links • follow-ups • atualizar a planilha • sinalizar casos de risco.</div>
+      </section>
+
+      <!-- DASHBOARD -->
+      <section class="page" id="dashboard">
+        <div class="eyebrow">Documento 20</div>
+        <h1>Dashboard de métricas</h1>
+        <p class="lead">Sem número, é achismo. Enxergar o funil inteiro e achar o gargalo da semana.</p>
+
+        <h2>Funil por etapa</h2>
+        <div class="flow">
+          Leads (AINDA DÁ) <span class="hl">→</span> Conversas reais <span class="hl">→</span> Links enviados <span class="hl">→</span><br>
+          Vendas R$47 <span class="hl">→</span> Sessões R$297 <span class="hl">→</span> Diagnósticos R$497 <span class="hl">→</span> Processos
+        </div>
+
+        <h2>Quando ajustar o quê</h2>
+        <table>
+          <tr><th>Sintoma</th><th>Ajuste</th></tr>
+          <tr><td>Poucos AINDA DÁ</td><td>Conteúdo / ganchos / frequência</td></tr>
+          <tr><td>Lead não vira conversa</td><td>Script de abertura da assistente</td></tr>
+          <tr><td>Conversa não vira aula</td><td>Pitch e prova da aula</td></tr>
+          <tr><td>Diagnóstico não vira processo</td><td>Forma de apresentar o preço</td></tr>
+          <tr><td>Agenda lotando</td><td>Subir preço ou limitar vagas</td></tr>
+        </table>
+        <div class="callout"><b>Regra:</b> mudar uma variável por vez para saber o que causou o efeito. Posso montar isso como planilha Excel pronta com as fórmulas de conversão automáticas.</div>
+
+        <div class="footer-note">Pasta Estratégica Samuel Vermelho · 20 documentos · material de trabalho para execução da agência. Cada documento traz checklist e “pendências para validar com Samuel”.</div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('.navlink');
+  const pages = document.querySelectorAll('.page');
+  links.forEach(l=>{
+    l.addEventListener('click',()=>{
+      const id = l.dataset.p;
+      links.forEach(x=>x.classList.remove('active'));
+      l.classList.add('active');
+      pages.forEach(p=>p.classList.remove('show'));
+      document.getElementById(id).classList.add('show');
+      window.scrollTo({top:0,behavior:'smooth'});
+      if(window.innerWidth<=860){closeMenu();}
+    });
+  });
+  function toggleMenu(){
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('scrim').classList.toggle('show');
+  }
+  function closeMenu(){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('scrim').classList.remove('show');
+  }
+</script>
+</body>
+</html>
